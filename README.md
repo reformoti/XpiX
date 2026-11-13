@@ -19,7 +19,7 @@ npm run build:pages
 Чёрно-белый бизнес-сайт с красными акцентами. Основатель и руководитель — **reformoti**.
 
 - Услуги: сайты, веб-приложения, браузерные игры.
-- Портфолио: [Apple IQ](https://apple-iq-reformoti.stunningherring.chatgpt.site/) и [исходный код](https://github.com/reformoti/AppleIQ).
+- Портфолио: [Apple IQ](https://reformoti.github.io/AppleIQ/) и [исходный код](https://github.com/reformoti/AppleIQ).
 - Контакт: `+380 50 508 •• ••`. Последние четыре цифры доступны после подтверждённой оплаты **$0.40 USD**.
 - Адаптация к телефону, навигация с клавиатуры, reduced motion, оригинальная анимированная иллюстрация яблока.
 
