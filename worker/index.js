@@ -1,6 +1,6 @@
 const assets = {}; // BUILD_ASSETS
 const MASKED_PHONE = '+380 50 508 •• ••';
-const PRICE = 0.40;
+const PRICE = 0.15;
 const CURRENCY = 'USD';
 const COOKIE = 'xpix_order';
 const MAX_AGE = 30 * 24 * 60 * 60;

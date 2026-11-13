@@ -12,7 +12,7 @@ async function checkout() {
   const body = await response.json();
   return {cookie:response.headers.get('set-cookie').split(';')[0],payload:JSON.parse(Buffer.from(body.data,'base64')),body};
 }
-function successful(order, override={}) { return {status:'success',action:'pay',order_id:order,public_key:env.LIQPAY_PUBLIC_KEY,amount:'0.40',currency:'USD',...override}; }
+function successful(order, override={}) { return {status:'success',action:'pay',order_id:order,public_key:env.LIQPAY_PUBLIC_KEY,amount:'0.15',currency:'USD',...override}; }
 test('SHA3-256 agrees with independent Node crypto vectors and block boundaries', () => {
   for (const bytes of [Buffer.from(''),Buffer.from('abc'),Buffer.from('XpiX — яблоко'),...Array.from({length:16},(_,i)=>randomBytes([1,32,135,136,137,271,272,273][i%8]))]) {
     assert.equal(Buffer.from(sha3(bytes)).toString('hex'),createHash('sha3-256').update(bytes).digest('hex'));
@@ -20,7 +20,7 @@ test('SHA3-256 agrees with independent Node crypto vectors and block boundaries'
 });
 test('unconfigured site never exposes the phone or permits payment', async () => {
   assert.equal((await (await fetchWorker('/api/config',{},{})).json()).paymentsEnabled,false);
-  const response = await fetchWorker('/api/contact?paid=true&amount=0.4',{},env);
+  const response = await fetchWorker('/api/contact?paid=true&amount=0.15',{},env);
   assert.equal((await response.json()).unlocked,false);
   assert.equal((await fetchWorker('/api/checkout',{method:'POST',headers:{origin}},{})).status,503);
   assert.equal((await (await fetchWorker('/api/config',{}, {...env,PAYMENTS_ENABLED:'false'})).json()).paymentsEnabled,false);
@@ -33,7 +33,7 @@ test('checkout fixes the price, signs v7 data, and creates a private browser-bou
   const response = await fetchWorker('/api/checkout',{method:'POST',headers:{origin},body:'{"amount":0,"phone":"steal"}'});
   const body = await response.json();
   const data = JSON.parse(Buffer.from(body.data,'base64'));
-  assert.equal(data.amount,0.4);assert.equal(data.currency,'USD');assert.equal(data.version,7);assert.equal(data.action,'pay');
+  assert.equal(data.amount,0.15);assert.equal(data.currency,'USD');assert.equal(data.version,7);assert.equal(data.action,'pay');
   assert.equal(body.signature,createHash('sha3-256').update(env.LIQPAY_PRIVATE_KEY+body.data+env.LIQPAY_PRIVATE_KEY).digest('base64'));
   assert.match(data.order_id,/^xpix_/);assert.equal(data.result_url,origin+'/?payment=return#contact');
   assert.match(response.headers.get('set-cookie'),/HttpOnly/);assert.match(response.headers.get('set-cookie'),/Secure/);assert.match(response.headers.get('set-cookie'),/SameSite=Lax/);
@@ -43,7 +43,7 @@ test('unpaid, sandbox, wrong merchant/order/amount/currency/action, and reversed
   const {cookie,payload} = await checkout();
   const originalFetch = globalThis.fetch;
   try {
-    const variants=[{status:'processing'},{status:'failure'},{status:'reversed'},{status:'sandbox'},{sandbox:'1'},{sandbox:true},{public_key:'other'},{order_id:'other'},{amount:0.39},{amount:0},{amount:'NaN'},{currency:'UAH'},{action:'hold'}];
+    const variants=[{status:'processing'},{status:'failure'},{status:'reversed'},{status:'sandbox'},{sandbox:'1'},{sandbox:true},{public_key:'other'},{order_id:'other'},{amount:0.14},{amount:0.40},{amount:0},{amount:'NaN'},{currency:'UAH'},{action:'hold'}];
     for (const variant of variants) {
       globalThis.fetch=async()=>Response.json(successful(payload.order_id,variant));
       const response=await fetchWorker('/api/contact',{headers:{cookie}});
