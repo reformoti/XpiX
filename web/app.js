@@ -1,5 +1,6 @@
 'use strict';
 const $ = (s) => document.querySelector(s);
+const STATIC_MODE = document.querySelector('meta[name="xpix-runtime"]')?.content === 'static';
 const dialog = $('#payment-dialog');
 const pay = $('#pay');
 const status = $('#payment-status');
@@ -9,6 +10,7 @@ let toastTimer;
 $('#year').textContent = new Date().getFullYear();
 function toast(message) { $('#toast').textContent = message; $('#toast').classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => $('#toast').classList.remove('show'), 5000); }
 async function api(path, options = {}) {
+  if (STATIC_MODE) throw new Error('Приём оплаты пока не подключён. Деньги не списываются.');
   const response = await fetch(path, { credentials: 'same-origin', cache: 'no-store', ...options });
   const body = await response.json();
   if (!response.ok) throw new Error(body.message || 'Не удалось связаться с сервером. Попробуйте ещё раз.');
@@ -35,6 +37,14 @@ async function checkContact(announce = false) {
   return data;
 }
 async function loadConfig() {
+  if (STATIC_MODE) {
+    paymentReady = false;
+    pay.disabled = true;
+    pay.textContent = 'Оплата пока недоступна';
+    status.textContent = 'Приём оплаты ещё не подключён. Сейчас деньги не списываются. Возвращайтесь позже.';
+    $('#payment-note').textContent = 'Приём оплаты пока не подключён. Списание недоступно.';
+    return;
+  }
   try {
     const data = await api('/api/config');
     paymentReady = data.paymentsEnabled;
@@ -68,6 +78,7 @@ $('#verify-payment').addEventListener('click', async (event) => {
 });
 async function initPayments() {
   await loadConfig();
+  if (STATIC_MODE) return;
   const returned = new URL(location.href).searchParams.has('payment');
   if (returned) { dialog.showModal(); status.textContent = 'Проверяем результат платежа…'; }
   try {

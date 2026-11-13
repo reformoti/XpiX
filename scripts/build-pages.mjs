@@ -1,0 +1,11 @@
+import { readFile, mkdir, writeFile, copyFile, rm } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
+const root = fileURLToPath(new URL('../', import.meta.url));
+const directory = root + 'docs/';
+await rm(directory, { recursive: true, force: true });
+await mkdir(directory, { recursive: true });
+const html = (await readFile(root + 'web/index.html', 'utf8')).replace('<head>', '<head>\n  <meta name="xpix-runtime" content="static">');
+await writeFile(directory + 'index.html', html);
+for (const name of ['style.css', 'app.js', 'favicon.svg']) await copyFile(root + 'web/' + name, directory + name);
+await writeFile(directory + '.nojekyll', '');
+console.log('GitHub Pages site is ready in docs/ (payments disabled, contact remains masked)');
