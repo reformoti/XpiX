@@ -8,4 +8,7 @@ const html = (await readFile(root + 'web/index.html', 'utf8')).replace('<head>',
 await writeFile(directory + 'index.html', html);
 for (const name of ['style.css', 'app.js', 'favicon.svg']) await copyFile(root + 'web/' + name, directory + name);
 await writeFile(directory + '.nojekyll', '');
-console.log('GitHub Pages site is ready in docs/ (payments disabled, contact remains masked)');
+for (const name of ['index.html', 'style.css', 'app.js', 'favicon.svg', '.nojekyll']) {
+  await copyFile(directory + name, root + name);
+}
+console.log('GitHub Pages site is ready in the repository root and docs/ (payments disabled, contact remains masked)');
