@@ -36,7 +36,7 @@ test('static page never contacts a payment API or unlocks from a return URL',asy
   await new Promise(resolve=>setImmediate(resolve));
   assert.equal(requests,0);
   assert.equal(element('#pay').disabled,true);
-  assert.match(element('#payment-status').textContent,/не подключён/);
+  assert.match(element('#payment-status').textContent,/не підключено/);
   await element('#unlock').handlers.click();
   assert.equal(element('#payment-dialog').open,true);
   await element('#pay').handlers.click();

@@ -89,23 +89,23 @@ export default {
           return json({unlocked:payment.paid,phone:payment.paid ? env.CONTACT_PHONE : MASKED_PHONE,hasOrder:true,state:payment.paid?'paid':payment.state});
         }
         if (path === '/api/checkout' && request.method === 'POST') {
-          if (request.headers.get('origin') !== url.origin || (env.PUBLIC_ORIGIN && url.origin !== new URL(env.PUBLIC_ORIGIN).origin)) return json({message:'Недопустимый источник запроса.'},403);
-          if (!ready(env)) return json({message:'Приём оплаты пока не подключён. Деньги не списываются.'},503);
+          if (request.headers.get('origin') !== url.origin || (env.PUBLIC_ORIGIN && url.origin !== new URL(env.PUBLIC_ORIGIN).origin)) return json({message:'Неприпустиме джерело запиту.'},403);
+          if (!ready(env)) return json({message:'Приймання оплати поки не підключено. Кошти не списуються.'},503);
           let order = await readOrder(request,env);
           if (!order || Date.now()-order.created > 23*60*60*1000) order = {id:'xpix_'+crypto.randomUUID(),created:Date.now()};
           const result_url = new URL('/?payment=return#contact', env.PUBLIC_ORIGIN).href;
           const expiry = new Date(order.created+24*60*60*1000).toISOString().slice(0,19).replace('T',' ');
-          const payload = signedPayload({version:7,public_key:env.LIQPAY_PUBLIC_KEY,action:'pay',amount:PRICE,currency:CURRENCY,description:'XpiX — разовый доступ к номеру основателя',order_id:order.id,result_url,expired_date:expiry,language:'uk',paytypes:'card,privat24,apay,gpay'},env);
+          const payload = signedPayload({version:7,public_key:env.LIQPAY_PUBLIC_KEY,action:'pay',amount:PRICE,currency:CURRENCY,description:'XpiX — одноразовий доступ до номера засновника',order_id:order.id,result_url,expired_date:expiry,language:'uk',paytypes:'card,privat24,apay,gpay'},env);
           const token = await tokenFor(order,env.SESSION_SECRET);
           const cookie = COOKIE+'='+token+'; HttpOnly; SameSite=Lax; Path=/; Max-Age='+MAX_AGE+(url.protocol==='https:'?'; Secure':'');
           return json(payload,200,{'Set-Cookie':cookie});
         }
-        return json({message:'Маршрут не найден.'},404);
-      } catch { return json({message:'Не удалось проверить платёж. Попробуйте ещё раз позже. Повторная оплата не требуется.'},502); }
+        return json({message:'Маршрут не знайдено.'},404);
+      } catch { return json({message:'Не вдалося перевірити платіж. Спробуйте ще раз пізніше. Повторна оплата не потрібна.'},502); }
     }
-    if (!['GET','HEAD'].includes(request.method)) return new Response('Method not allowed',{status:405,headers:{...headers,Allow:'GET, HEAD'}});
+    if (!['GET','HEAD'].includes(request.method)) return new Response('Метод не дозволено',{status:405,headers:{...headers,Allow:'GET, HEAD'}});
     const asset = Object.hasOwn(assets,path) ? assets[path] : null;
-    if (!asset) return new Response('Not found',{status:404,headers});
+    if (!asset) return new Response('Не знайдено',{status:404,headers});
     return new Response(request.method==='HEAD'?null:asset.body,{headers:{...headers,'Content-Type':asset.type,'Cache-Control':'no-cache'}});
   }
 };

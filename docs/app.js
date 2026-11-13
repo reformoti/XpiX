@@ -10,28 +10,28 @@ let toastTimer;
 $('#year').textContent = new Date().getFullYear();
 function toast(message) { $('#toast').textContent = message; $('#toast').classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => $('#toast').classList.remove('show'), 5000); }
 async function api(path, options = {}) {
-  if (STATIC_MODE) throw new Error('Приём оплаты пока не подключён. Деньги не списываются.');
+  if (STATIC_MODE) throw new Error('Приймання оплати поки не підключено. Кошти не списуються.');
   const response = await fetch(path, { credentials: 'same-origin', cache: 'no-store', ...options });
   const body = await response.json();
-  if (!response.ok) throw new Error(body.message || 'Не удалось связаться с сервером. Попробуйте ещё раз.');
+  if (!response.ok) throw new Error(body.message || 'Не вдалося зв’язатися із сервером. Спробуйте ще раз.');
   return body;
 }
 function reveal(phone) {
   $('#phone').textContent = phone;
-  $('#phone').setAttribute('aria-label', 'Полный номер телефона основателя XpiX');
+  $('#phone').setAttribute('aria-label', 'Повний номер телефону засновника XpiX');
   $('#unlock').hidden = true;
   $('#call').hidden = false;
   $('#call').href = 'tel:' + phone.replace(/[^+\d]/g, '');
-  $('#payment-note').textContent = 'Номер открыт. Сохраните его, чтобы связаться в удобное время.';
+  $('#payment-note').textContent = 'Номер відкрито. Збережіть його, щоб зв’язатися у зручний час.';
 }
 async function checkContact(announce = false) {
   const data = await api('/api/contact');
   if (data.unlocked) {
     reveal(data.phone);
     if (dialog.open) dialog.close();
-    if (announce) toast('Платёж подтверждён. Номер открыт.');
+    if (announce) toast('Платіж підтверджено. Номер відкрито.');
   } else if (announce) {
-    status.textContent = data.state === 'failed' ? 'Платёж не завершён или возвращён. Номер пока закрыт.' : data.hasOrder ? 'Платёж пока не подтверждён. Подождите немного и проверьте ещё раз. Повторно платить не нужно.' : 'В этом браузере нет заказа. Откройте оплату здесь, чтобы получить доступ к номеру.';
+    status.textContent = data.state === 'failed' ? 'Платіж не завершено або кошти повернуто. Номер поки закрито.' : data.hasOrder ? 'Платіж поки не підтверджено. Зачекайте трохи та перевірте ще раз. Повторно платити не потрібно.' : 'У цьому браузері немає замовлення. Відкрийте оплату тут, щоб отримати доступ до номера.';
   }
   $('#verify-payment').hidden = !data.hasOrder;
   return data;
@@ -40,26 +40,26 @@ async function loadConfig() {
   if (STATIC_MODE) {
     paymentReady = false;
     pay.disabled = true;
-    pay.textContent = 'Оплата пока недоступна';
-    status.textContent = 'Приём оплаты ещё не подключён. Сейчас деньги не списываются. Возвращайтесь позже.';
-    $('#payment-note').textContent = 'Приём оплаты пока не подключён. Списание недоступно.';
+    pay.textContent = 'Оплата поки недоступна';
+    status.textContent = 'Приймання оплати ще не підключено. Зараз кошти не списуються. Повертайтеся пізніше.';
+    $('#payment-note').textContent = 'Приймання оплати поки не підключено. Списання недоступне.';
     return;
   }
   try {
     const data = await api('/api/config');
     paymentReady = data.paymentsEnabled;
     pay.disabled = !paymentReady;
-    status.textContent = paymentReady ? 'Оплата картой через LiqPay. После возврата на сайт проверим платёж и откроем номер.' : 'Приём оплаты ещё не подключён. Сейчас деньги не списываются. Возвращайтесь позже.';
-    $('#payment-note').textContent = paymentReady ? 'Разовая оплата · номер откроется после подтверждения платежа.' : 'Приём оплаты пока не подключён. Списание недоступно.';
-    if (!paymentReady) pay.textContent = 'Оплата скоро появится';
-  } catch { status.textContent = 'Не удалось проверить оплату. Закройте окно и попробуйте снова.'; pay.disabled = true; }
+    status.textContent = paymentReady ? 'Оплата карткою через LiqPay. Після повернення на сайт перевіримо платіж і відкриємо номер.' : 'Приймання оплати ще не підключено. Зараз кошти не списуються. Повертайтеся пізніше.';
+    $('#payment-note').textContent = paymentReady ? 'Одноразова оплата · номер відкриється після підтвердження платежу.' : 'Приймання оплати поки не підключено. Списання недоступне.';
+    if (!paymentReady) pay.textContent = 'Оплата незабаром з’явиться';
+  } catch { status.textContent = 'Не вдалося перевірити оплату. Закрийте вікно та спробуйте знову.'; pay.disabled = true; }
 }
 $('#unlock').addEventListener('click', async () => { dialog.showModal(); await loadConfig(); });
 $('#close-dialog').addEventListener('click', () => dialog.close());
 dialog.addEventListener('click', (event) => { if (event.target === dialog) { const rect = dialog.getBoundingClientRect(); if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close(); } });
 pay.addEventListener('click', async () => {
   if (!paymentReady || busy) return;
-  busy = true; pay.disabled = true; status.textContent = 'Готовим защищённую страницу оплаты…';
+  busy = true; pay.disabled = true; status.textContent = 'Готуємо захищену сторінку оплати…';
   try {
     const contact = await checkContact();
     if (contact.unlocked) return;
@@ -80,7 +80,7 @@ async function initPayments() {
   await loadConfig();
   if (STATIC_MODE) return;
   const returned = new URL(location.href).searchParams.has('payment');
-  if (returned) { dialog.showModal(); status.textContent = 'Проверяем результат платежа…'; }
+  if (returned) { dialog.showModal(); status.textContent = 'Перевіряємо результат платежу…'; }
   try {
     let contact = await checkContact(returned);
     if (returned && !contact.unlocked && contact.hasOrder && paymentReady) {
@@ -89,7 +89,7 @@ async function initPayments() {
         contact = await checkContact(true);
       }
     }
-  } catch { if (returned) status.textContent = 'Проверка временно недоступна. Нажмите «Проверить платёж» позже. Не оплачивайте повторно.'; }
+  } catch { if (returned) status.textContent = 'Перевірка тимчасово недоступна. Натисніть «Перевірити платіж» пізніше. Не оплачуйте повторно.'; }
   if (returned) { const url = new URL(location.href); url.searchParams.delete('payment'); history.replaceState(null, '', url.pathname + url.search + url.hash); }
 }
 initPayments();
