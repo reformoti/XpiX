@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ГЛИБОКЕ ПОЛЕ — обсерваторія глибокого космосу</title>
+<meta name="description" content="Імерсивна 3D-станція «ГЛИБОКЕ ПОЛЕ»: об'ємний монумент X та каркасне яблуко на солончаку Альтиплано на світанку. Керований маршрут, зближення, канал зв'язку і вільний огляд із пультом камери.">
+<meta name="theme-color" content="#07080c">
+<meta property="og:title" content="ГЛИБОКЕ ПОЛЕ — обсерваторія глибокого космосу">
+<meta property="og:description" content="Світанок над солончаком: монумент X, каркасне яблуко, живий рендер і канал зв'язку з дальнім апаратом.">
+<meta property="og:type" content="website">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300..900&family=JetBrains+Mono:wght@300..700&display=swap">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<div class="stage" id="stage">
+  <canvas class="gl gl--back" id="glBack"></canvas>
+
+  <div class="titlewrap" id="titlewrap">
+    <h1 class="giant"><span class="giant__w">ГЛИБОКЕ</span><span class="giant__w giant__w--late">ПОЛЕ</span></h1>
+  </div>
+
+  <canvas class="gl gl--front" id="glFront"></canvas>
+
+  <main class="hud" id="hud">
+    <header class="hud__top">
+      <div class="toprow">
+        <p class="brand">ГЛИБОКЕ&nbsp;ПОЛЕ</p>
+        <div class="toprow__right">
+          <p class="topmeta">СТАНЦІЯ 04 · АЛЬТИПЛАНО · 3&nbsp;712&nbsp;м</p>
+          <button class="soundbtn is-on" type="button" id="soundBtn" aria-pressed="true">
+            <span class="soundbtn__wave" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span id="soundLabel">ЗВУК СТАНЦІЇ</span>
+          </button>
+        </div>
+      </div>
+      <span class="hairline" aria-hidden="true"></span>
+      <p class="eyebrow">ОБСЕРВАТОРІЯ ГЛИБОКОГО КОСМОСУ</p>
+    </header>
+
+    <section class="side side--left">
+      <p class="statement">За&nbsp;межею тиші.<br>У&nbsp;невідоме.</p>
+      <p class="caption" id="caption">Об’ємна чотирипроменева зірка. Вільна форма у відкритому просторі.</p>
+    </section>
+
+    <section class="side side--right">
+      <p class="hint" id="hint"><span id="hintText">Гортайте, щоб дослідити</span> <span class="hint__mark" id="hintMark">↓</span></p>
+    </section>
+
+    <section class="tele tele--left" aria-hidden="true">
+      <p class="tele__row"><span>АЗИМУТ</span><b id="tAz">—</b></p>
+      <p class="tele__row"><span>КУТ МІСЦЯ</span><b id="tEl">—</b></p>
+      <p class="tele__row"><span>ВІДДАЛЬ</span><b id="tDist">—</b></p>
+    </section>
+
+    <section class="tele tele--right" aria-hidden="true">
+      <p class="tele__row"><span>ФОКУС</span><b id="tFocal">—</b></p>
+      <p class="tele__row"><span>СИГНАЛ</span><b id="tSignal">—</b></p>
+      <p class="tele__row"><span>КА «ОРІЙ-7»</span><b id="tCraft">—</b></p>
+    </section>
+
+    <aside class="rail" id="rail" aria-label="Пульт вільного огляду" hidden>
+      <div class="rail__head">
+        <p class="rail__title">ПУЛЬТ ОГЛЯДУ</p>
+        <p class="rail__sub" id="railSub">ЗМІНИ ЗАСТОСОВУЮТЬСЯ НАЖИВО</p>
+      </div>
+
+      <div class="rail__body">
+        <label class="ctl" for="cAz"><span class="ctl__name">АЗИМУТ</span><b class="ctl__val" id="vAz">0°</b>
+          <input type="range" id="cAz" min="0" max="360" step="1" value="0"></label>
+        <label class="ctl" for="cPol"><span class="ctl__name">КУТ МІСЦЯ</span><b class="ctl__val" id="vPol">0°</b>
+          <input type="range" id="cPol" min="-20" max="86" step="1" value="30"></label>
+        <label class="ctl" for="cDist"><span class="ctl__name">ВІДДАЛЬ</span><b class="ctl__val" id="vDist">0 м</b>
+          <input type="range" id="cDist" min="14" max="320" step="1" value="62"></label>
+        <label class="ctl" for="cExp"><span class="ctl__name">ЕКСПОЗИЦІЯ</span><b class="ctl__val" id="vExp">1,00</b>
+          <input type="range" id="cExp" min="55" max="165" step="1" value="102"></label>
+        <label class="ctl" for="cFog"><span class="ctl__name">АТМОСФЕРА</span><b class="ctl__val" id="vFog">1,00</b>
+          <input type="range" id="cFog" min="0" max="220" step="1" value="100"></label>
+        <label class="ctl" for="cTrack"><span class="ctl__name">ШВИДКІСТЬ СУПРОВОДУ</span><b class="ctl__val" id="vTrack">1,0×</b>
+          <input type="range" id="cTrack" min="0" max="300" step="1" value="100"></label>
+        <label class="ctl" for="cStars"><span class="ctl__name">ЗОРЯНЕ ПОЛЕ</span><b class="ctl__val" id="vStars">0,80</b>
+          <input type="range" id="cStars" min="0" max="100" step="1" value="80"></label>
+
+        <div class="rail__toggles" role="group" aria-label="Режими відображення">
+          <button class="chip" type="button" id="tgTrack" aria-pressed="true">СУПРОВІД</button>
+          <button class="chip" type="button" id="tgBeam" aria-pressed="true">КАНАЛ</button>
+          <button class="chip" type="button" id="tgGrid" aria-pressed="false">СІТКА</button>
+          <button class="chip" type="button" id="tgWire" aria-pressed="false">КАРКАС</button>
+        </div>
+
+        <div class="rail__quality" role="group" aria-label="Якість рендера">
+          <span class="rail__qlabel">ЯКІСТЬ</span>
+          <button class="chip chip--q" type="button" data-q="0.75" aria-pressed="false">НИЗЬКА</button>
+          <button class="chip chip--q is-on" type="button" data-q="1" aria-pressed="true">СЕРЕДНЯ</button>
+          <button class="chip chip--q" type="button" data-q="1.5" aria-pressed="false">ВИСОКА</button>
+        </div>
+      </div>
+
+      <div class="rail__actions">
+        <button class="act" type="button" id="railReset">СКИНУТИ</button>
+        <button class="act" type="button" id="railRandom">ВИПАДКОВО</button>
+        <button class="act act--primary" type="button" id="railExport">ЗБЕРЕГТИ КАДР</button>
+      </div>
+      <p class="rail__note" id="railNote">Показники описують віртуальну камеру сцени.</p>
+    </aside>
+
+    <footer class="hud__bottom">
+      <span class="hairline hairline--bottom" aria-hidden="true"></span>
+      <p class="live"><span class="live__dot" aria-hidden="true"></span>ЖИВЕ ЗОБРАЖЕННЯ</p>
+      <nav class="views" id="views" aria-label="Види камери">
+        <button class="view is-active" type="button" data-view="0"><span class="view__num">01</span>ОГЛЯД</button>
+        <button class="view" type="button" data-view="1"><span class="view__num">02</span>ЗБЛИЖЕННЯ</button>
+        <button class="view" type="button" data-view="2"><span class="view__num">03</span>КАНАЛ ЗВ'ЯЗКУ</button>
+      </nav>
+      <p class="mode" id="modeLabel">КЕРОВАНИЙ ОГЛЯД</p>
+      <div class="controls">
+        <button class="freebtn" type="button" id="freeBtn" aria-pressed="false">
+          <span id="freeBtnText">ВІЛЬНИЙ ОГЛЯД</span><span class="freebtn__mark" aria-hidden="true">↗</span>
+        </button>
+        <div class="lens lens--form" role="group" aria-label="Форма об'єкта">
+          <span class="lens__label">ОБ'ЄКТ</span>
+          <button class="formbtn is-active" type="button" data-form="star" aria-pressed="true">✦</button>
+          <button class="formbtn" type="button" data-form="apple" aria-pressed="false">ЯБЛУКО</button>
+        </div>
+        <div class="lens" role="group" aria-label="Збільшення об'єктива">
+          <span class="lens__label">ОБ'ЄКТИВ</span>
+          <button class="lensbtn is-active" type="button" data-lens="1" aria-pressed="true">1×</button>
+          <button class="lensbtn" type="button" data-lens="1.5" aria-pressed="false">1,5×</button>
+          <button class="lensbtn" type="button" data-lens="2" aria-pressed="false">2×</button>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <div class="loader" id="loader">
+    <div class="loader__box">
+      <p class="loader__brand">ГЛИБОКЕ ПОЛЕ</p>
+      <div class="loader__track"><span class="loader__fill" id="loaderFill"></span></div>
+      <p class="loader__step" id="loaderStep">ІНІЦІАЛІЗАЦІЯ КОНТЕКСТУ</p>
+      <p class="loader__pct" id="loaderPct">0&nbsp;%</p>
+    </div>
+  </div>
+
+  <div class="fatal" id="fatal" hidden>
+    <div class="fatal__box">
+      <p class="fatal__title">Сцену не вдалося запустити</p>
+      <p class="fatal__text" id="fatalText">Браузер не надав графічний контекст. Перевірте підтримку WebGL і оновіть сторінку.</p>
+      <button class="fatal__btn" type="button" id="fatalRetry">Повторити</button>
+    </div>
+  </div>
+</div>
+
+<div class="scrollspace" id="scrollspace" aria-hidden="true"></div>
+
+<noscript>
+  <div class="noscript">Для роботи 3D-сцени потрібно увімкнути JavaScript.</div>
+</noscript>
+
+<script type="module" src="./app.js"></script>
+<script>
+  setTimeout(function () {
+    if (window.__deepFieldModuleLoaded) return;
+    var el = document.getElementById('fatalText');
+    if (el) el.textContent = 'Модуль сцени не завантажився. Перевірте з\u2019єднання та оновіть сторінку.';
+    var loader = document.getElementById('loader');
+    if (loader) loader.setAttribute('hidden', '');
+    var fatal = document.getElementById('fatal');
+    if (fatal) fatal.removeAttribute('hidden');
+  }, 25000);
+</script>
+</body>
+</html>
