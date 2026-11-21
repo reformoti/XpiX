@@ -1,15 +1,16 @@
 <!doctype html>
-<html lang="uk">
+<html lang="uk" data-theme="dark">
 <head>
   <meta name="xpix-runtime" content="static">
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <title>XpiX — студія вайбкодингу</title>
   <meta name="description" content="XpiX — незалежна студія вайбкодингу під керівництвом reformoti. Сайти, вебзастосунки та браузерні ігри. Від ідеї — до готового продукту.">
-  <meta name="theme-color" content="#f5f4f0">
+  <meta name="theme-color" content="#0d1118">
+  <script src="./theme.js?v=1.4.0"></script>
   <meta property="og:title" content="XpiX — від ідеї до кліку">
   <meta property="og:description" content="Сайти. Застосунки. Ігри. Незалежна студія вайбкодингу reformoti.">
   <meta property="og:type" content="website"><meta property="og:locale" content="uk_UA">
-  <link rel="icon" href="./favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="./style.css?v=1.3.0">
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="./style.css?v=1.4.0">
   <script defer src="./app.js?v=1.2.0"></script>
   <script type="module" src="./deep-field-preview.js?v=1.3.0"></script>
 </head>
@@ -18,7 +19,13 @@
 <header class="header wrap">
   <a href="#" class="logo" aria-label="XpiX — на головну">XpiX<span class="brand-dot" aria-hidden="true"></span></a>
   <nav aria-label="Основна навігація"><a href="#services">Що створюємо</a><a href="#work">Роботи</a><a href="#about">Про студію</a></nav>
-  <a class="header-cta" href="#contact">Обговорімо ідею <span aria-hidden="true"><svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20 20 4M4 4h16v16"/></svg></span></a>
+  <div class="header-actions">
+    <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Увімкнути світлу тему" aria-pressed="true">
+      <span class="theme-toggle__icon" data-theme-icon aria-hidden="true">☾</span>
+      <span data-theme-label>ТЕМНА</span>
+    </button>
+    <a class="header-cta" href="#contact">Обговорімо ідею <span aria-hidden="true"><svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20 20 4M4 4h16v16"/></svg></span></a>
+  </div>
 </header>
 <main id="main">
 <section class="hero wrap" aria-labelledby="hero-title">

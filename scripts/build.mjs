@@ -8,6 +8,7 @@ for (const [url, path, type] of [
   ['/app.js', 'web/app.js', 'text/javascript; charset=utf-8'],
   ['/favicon.svg', 'web/favicon.svg', 'image/svg+xml'],
   ['/deep-field-preview.js', 'web/deep-field-preview.js', 'text/javascript; charset=utf-8'],
+  ['/theme.js', 'web/theme.js', 'text/javascript; charset=utf-8'],
   ['/gliboke-pole/', 'gliboke-pole/index.html', 'text/html; charset=utf-8'],
   ['/gliboke-pole/index.html', 'gliboke-pole/index.html', 'text/html; charset=utf-8'],
   ['/gliboke-pole/app.js', 'gliboke-pole/app.js', 'text/javascript; charset=utf-8'],
