@@ -1,5 +1,10 @@
 # XpiX — студия вайбкодинга
 
+## Проекты студии
+
+- [Apple IQ](https://reformoti.github.io/AppleIQ/) — браузерная игра.
+- [Глибоке Поле](https://reformoti.github.io/XpiX/gliboke-pole/) — интерактивная 3D-сцена на Three.js. Исходники находятся в `gliboke-pole/`, ссылка есть в разделе «Роботи» на главной XpiX. Команда `npm run build:pages` копирует проект и в `docs/gliboke-pole/` для GitHub Pages.
+
 ## Версия для GitHub Pages
 
 Главная страница `index.html` и её ресурсы размещены в корне репозитория, чтобы GitHub Pages показывал сайт XpiX вместо README. Папка `docs/` содержит ту же статическую версию с прежним дизайном, портфолио Apple IQ и скрытым номером телефона. Сборка не требует установки зависимостей.
