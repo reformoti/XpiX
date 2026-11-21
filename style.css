@@ -63,3 +63,68 @@
   .scene-glow-control{order:3}
 }
 @media(prefers-reduced-motion:reduce){.xpix-scene{transition:none}}
+
+
+/* XpiX 1.4 – accessible dark and light appearance. Dark is the default. */
+:root[data-theme="dark"] {
+  --paper:#0d1118;
+  --ink:#f2f1ed;
+  --muted:#aeb4c0;
+  --line:#39424e;
+  --red:#ff6a60;
+  color-scheme:dark;
+}
+:root[data-theme="light"]{color-scheme:light}
+
+/* Header theme control */
+.header-actions{display:flex;align-items:center;gap:clamp(14px,2.2vw,32px);flex-shrink:0}
+.theme-toggle{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  min-width:89px;min-height:38px;padding:6px 11px;
+  background:transparent;color:var(--ink);border:1px solid var(--line);
+  font:10px var(--mono);letter-spacing:.09em;
+  transition:color .2s,background .2s,border-color .2s;
+}
+.theme-toggle__icon{font:20px/1 var(--sans);display:inline-block;min-width:17px;text-align:center}
+.theme-toggle:hover{border-color:var(--red);color:var(--red)}
+.theme-toggle:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+@media(max-width:1050px){.header-actions{gap:14px}.header nav{gap:18px}.header-cta{gap:16px}}
+@media(max-width:600px){
+  .header-actions{gap:10px}
+  .theme-toggle{min-width:36px;width:36px;height:36px;padding:0}
+  .theme-toggle [data-theme-label]{display:none}
+  .header-cta{font-size:10px;gap:9px}
+}
+@media(max-width:360px){.header-cta{font-size:9px;gap:6px}.logo{font-size:27px}}
+
+/* Dark surfaces, semantic text and coherent red accents */
+:root[data-theme="dark"] body{background:var(--paper);color:var(--ink)}
+:root[data-theme="dark"] ::selection{background:var(--red);color:#0d1118}
+:root[data-theme="dark"] .hero-copy>p{color:#bfc2c9}
+:root[data-theme="dark"] .work{background:#171d27}
+:root[data-theme="dark"] .service-tag,
+:root[data-theme="dark"] .tags span,
+:root[data-theme="dark"] .project-links a,
+:root[data-theme="dark"] .project-grid--deepfield{border-color:var(--line)}
+:root[data-theme="dark"] .steps article{border-color:var(--line)}
+:root[data-theme="dark"] .dark{background:#f2f1ed;color:#0d1118}
+:root[data-theme="dark"] .dark:hover{background:#d9dce3}
+:root[data-theme="dark"] .light{background:#f2f1ed;color:#0d1118}
+:root[data-theme="dark"] .red{background:var(--red);color:#101016}
+:root[data-theme="dark"] .red:hover{background:#ff8b82}
+:root[data-theme="dark"] .contact{background:#080c13;color:#f2f1ed;border-top:1px solid var(--line)}
+:root[data-theme="dark"] .contact-card{background:#101721;border-color:#424c58}
+:root[data-theme="dark"] .contact h2 em{color:#b2b8c2}
+:root[data-theme="dark"] .contact-grid>div>p,
+:root[data-theme="dark"] .contact-card>.small,
+:root[data-theme="dark"] .contact-card .payment-note,
+:root[data-theme="dark"] .unlock-meta>span{color:#bdc3cd}
+:root[data-theme="dark"] .contact-rule{background:#434d5b}
+:root[data-theme="dark"] .hidden-digits{color:#ccd0d9}
+:root[data-theme="dark"] .toast{background:#f2f1ed;color:#11141b;box-shadow:0 8px 34px #0009}
+:root[data-theme="dark"] dialog{background:#181f2a;color:var(--ink);border:1px solid #424c58}
+:root[data-theme="dark"] .payment-status{background:#283241;color:var(--ink)}
+:root[data-theme="dark"] .verify-button{color:var(--ink);border-color:var(--line)}
+:root[data-theme="dark"] .footer{border-color:var(--line)}
+/* The original SVG and WebGL artwork retain their own dark canvas in either mode. */
+@media(prefers-reduced-motion:reduce){.theme-toggle{transition:none}}
