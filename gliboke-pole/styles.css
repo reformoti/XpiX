@@ -886,3 +886,6 @@ html { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--site-acc
 .xpix-return { pointer-events: auto; color: var(--site-fg); text-decoration: none; border: 1px solid var(--hair); background: var(--panel); padding: calc(var(--u) * .24) calc(var(--u) * .5); border-radius: var(--site-radius); font-size: calc(11px * var(--site-type)); letter-spacing: .07em; white-space: nowrap; transition: color var(--t), border-color var(--t), background var(--t); }
 .xpix-return:hover, .xpix-return:focus-visible { border-color: var(--site-accent); color: var(--site-accent); background: var(--panel-strong); }
 @media(max-width:600px){ .xpix-return{ font-size:10px; padding:7px 9px; } }
+
+/* Brand alignment with the main XpiX site */
+.brand-separator{color:var(--site-accent);margin:0 .25em}

@@ -19,3 +19,47 @@
 .project-visual--deepfield .project-top,.project-visual--deepfield .project-caption{color:#cbc4c7}
 @media(max-width:760px){.project-grid--deepfield{margin-top:48px;padding-top:35px}.deepfield-preview__label{font-size:7px;letter-spacing:.1em}}
 @media(prefers-reduced-motion:reduce){.deepfield-preview__star{transition:none}}
+
+
+/* XpiX / Глибоке Поле: live Three.js hero, powered by the same sculpture module. */
+.hero-art.is-3d{
+  background:radial-gradient(ellipse 85% 70% at 50% 48%,#381720 0%,#151015 47%,#07080c 100%);
+}
+.xpix-scene{
+  position:absolute;inset:0;display:block;width:100%;height:100%;
+  z-index:1;opacity:0;cursor:grab;touch-action:pan-y;
+}
+.xpix-scene:active{cursor:grabbing}
+.hero-art.is-3d .xpix-scene{opacity:1}
+.hero-art.is-3d .x-object{opacity:0;pointer-events:none}
+.hero-art.is-3d .art-top{color:#dad5d8}
+.hero-art.is-3d .art-bottom{color:#c3bcc1}
+.hero-scene-panel{
+  position:absolute;z-index:3;left:18px;right:18px;bottom:66px;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  flex-wrap:wrap;padding:11px 12px;
+  background:rgba(8,9,13,.76);border:1px solid rgba(235,230,230,.23);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  color:#ede8e9;font-size:9px;letter-spacing:.08em;
+}
+.hero-scene-panel[hidden]{display:none!important}
+.scene-hint{flex-basis:100%;color:#ac9fa6;font-size:8px;letter-spacing:.13em}
+.scene-color-control,.scene-glow-control{display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.scene-color-control input{width:27px;height:27px;border:1px solid #63535e;padding:2px;background:transparent;cursor:pointer}
+.scene-glow-control input{width:76px;accent-color:#ed243d;cursor:pointer}
+.scene-glow-control output{min-width:3ch;color:#e8dfe2}
+.hero-lab-link{color:#fff;border-bottom:1px solid #e6d8df;text-decoration:none;white-space:nowrap;font-size:9px;padding:7px 0;transition:color .2s}
+.hero-lab-link:hover,.hero-lab-link:focus-visible{color:#f24c64}
+.xpix-scene:focus-visible{outline:2px solid #ed243d;outline-offset:-5px}
+@media(max-width:760px){
+  .hero-scene-panel{left:13px;right:13px;bottom:58px;padding:10px;gap:8px;font-size:8px}
+  .scene-hint{font-size:7px}
+  .scene-glow-control input{width:64px}
+  .hero-lab-link{font-size:8px}
+}
+@media(max-width:370px){
+  .hero-scene-panel{bottom:53px}
+  .scene-hint{display:none}
+  .scene-glow-control{order:3}
+}
+@media(prefers-reduced-motion:reduce){.xpix-scene{transition:none}}
