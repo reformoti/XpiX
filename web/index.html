@@ -8,8 +8,9 @@
   <meta property="og:title" content="XpiX — від ідеї до кліку">
   <meta property="og:description" content="Сайти. Застосунки. Ігри. Незалежна студія вайбкодингу reformoti.">
   <meta property="og:type" content="website"><meta property="og:locale" content="uk_UA">
-  <link rel="icon" href="./favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="./style.css?v=1.2.1">
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="./style.css?v=1.3.0">
   <script defer src="./app.js?v=1.2.0"></script>
+  <script type="module" src="./deep-field-preview.js?v=1.3.0"></script>
 </head>
 <body>
 <a class="skip" href="#main">До вмісту</a>
@@ -24,13 +25,20 @@
   <div class="hero-grid">
     <div class="hero-copy"><h1 id="hero-title">Від ідеї<br>до <span>кліку.</span></h1><p>Вайбкодинг із характером.<br>Перетворюємо ваші думки на сайти,<br>застосунки та ігри.</p><a class="button dark" href="#work">Переглянути роботи <span aria-hidden="true"><svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20 20 4M4 4h16v16"/></svg></span></a></div>
     <div class="hero-art" aria-label="Абстрактний об’ємний символ XpiX">
-      <div class="art-top mono"><span>XPIX / ЕКСПЕРИМЕНТ 001</span><span><svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20 20 4M4 4h16v16"/></svg></span></div>
+      <div class="art-top mono"><span>XPIX / ЖИВИЙ 3D-ЕКСПЕРИМЕНТ</span><span><svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20 20 4M4 4h16v16"/></svg></span></div>
+      <canvas id="xpix-deepfield" class="xpix-scene" tabindex="0" role="img" aria-label="Інтерактивна 3D-зірка. Обертайте її мишею, дотиком або клавішами-стрілками."></canvas>
       <svg class="x-object" viewBox="0 0 500 460" aria-hidden="true">
         <defs><pattern id="fine-grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#333" stroke-width=".55"/></pattern></defs>
         <path fill="url(#fine-grid)" d="M0 0H500V460H0z"/>
         <g class="x-sculpture"><path class="x-side" d="m112 76 52-24 107 120 107-120 52 24-127 154 127 154-52 24-107-120-107 120-52-24 127-154z"/><path class="x-front" d="m60 100 52-24 127 154-127 154-52-24 106-130z"/><path class="x-front" d="m326 76 52-24-127 154 127 154-52 24-127-154z"/><path class="x-main" d="M60 100h70l86 100 86-100h76L251 254l127 154h-76l-86-104-86 104H60l127-154z"/><path d="m60 100 52-24h70l-52 24m172 0 52-24h76l-52 24M251 254l52-24 127 154-52 24M130 408l52-24 57-69" fill="none" stroke="#777" stroke-width="1"/><path class="x-red" d="m187 254 29-35 35 35-35 42z"/><path d="M60 100h70l86 100 86-100h76L251 254l127 154h-76l-86-104-86 104H60l127-154z" fill="none" stroke="#a9a9a9" stroke-width="1.2"/></g>
         <path d="M22 28h16m-8-8v16m432 392h16m-8-8v16" stroke="#777"/>
       </svg>
+      <div class="hero-scene-panel mono" id="hero-scene-panel" hidden>
+        <span class="scene-hint">РУХАЙТЕ, ЩОБ ОБЕРТАТИ</span>
+        <label class="scene-color-control">КОЛІР <input id="hero-glow-color" type="color" value="#ed243d" aria-label="Колір світіння зірки"></label>
+        <label class="scene-glow-control">СЯЙВО <input id="hero-glow-intensity" type="range" min="0" max="150" value="85" step="5" aria-label="Інтенсивність світіння"><output id="hero-glow-value" for="hero-glow-intensity">85%</output></label>
+        <a class="hero-lab-link" href="./gliboke-pole/">НА ВЕСЬ ЕКРАН ↗</a>
+      </div>
       <div class="art-bottom mono"><span>МЕНШЕ ШУМУ.<br>БІЛЬШЕ СЕНСУ.</span><span class="art-red">[ X ]</span></div>
     </div>
   </div>

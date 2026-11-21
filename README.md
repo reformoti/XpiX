@@ -3,7 +3,9 @@
 ## Проекты студии
 
 - [Apple IQ](https://reformoti.github.io/AppleIQ/) — браузерная игра.
-- [Глибоке Поле](https://reformoti.github.io/XpiX/gliboke-pole/) — интерактивная 3D-сцена на Three.js. Исходники находятся в `gliboke-pole/`, ссылка есть в разделе «Роботи» на главной XpiX. Команда `npm run build:pages` копирует проект и в `docs/gliboke-pole/` для GitHub Pages.
+- [Глибоке Поле](https://reformoti.github.io/XpiX/gliboke-pole/) — полноэкранная 3D-лаборатория на Three.js. Её **интерактивная звезда теперь работает прямо в первом экране XpiX**: её можно вращать, менять цвет и силу свечения. На главной и в полном режиме используется общий модуль `gliboke-pole/star-geometry.js`.
+
+Главная страница сохраняет существующие разделы и Apple IQ. `web/deep-field-preview.js` отвечает за встроенную сцену, при отсутствии WebGL показывается прежняя SVG-графика. `npm run build:pages` переносит нужные файлы в корень и `docs/`, а `npm run build` готовит статические ресурсы для Worker. При сниженной анимации или если блок не виден, непрерывный рендеринг останавливается.
 
 ## Версия для GitHub Pages
 
